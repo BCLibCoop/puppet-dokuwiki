@@ -6,20 +6,14 @@ class dokuwiki::config (
 
   $version_string = "dokuwiki-${version}"
 
-  file { ["${basedir}/${version_string}/conf",
-          "${basedir}/${version_string}/lib/plugins",
-          "${basedir}/${version_string}/lib/tpl"]:
-    ensure  => directory,
-    recurse => true,
-    owner   => $dokuwiki::params::www_owner,
+  # do recursive chown on directories, since recursive file resource
+  # can be costly in large installations
+  dokuwiki::config::chown_r { [
+      "${basedir}/${version_string}/conf",
+      "${basedir}/${version_string}/data",
+      "${basedir}/${version_string}/lib/plugins",
+      "${basedir}/${version_string}/lib/tpl" ]:
+    owner => $dokuwiki::params::www_owner,
+    group => 'root',
   }
-  # If this resource is made recursive, you can get a huge report on each run:
-  # ~750 bytes per file, and dokuwiki keeps old revisions in files. BCLibCoop
-  # private wiki caused a 450MB growth in the report :-(.
-  file { "${basedir}/${version_string}/data":
-    ensure  => directory,
-    owner   => $dokuwiki::params::www_owner,
-    recurse => false,
-  }
-
 }
