@@ -11,4 +11,5 @@ project_page 'https://github.com/fnerdwq/puppet-dokuwiki'
 dependency 'puppetlabs/stdlib', '>= 3.2.1'
 # Dependency on 'archive' Module (forked version!!!) -> see github
 #   https://github.com/fnerdwq/puppet-dokuwiki
+# test comment from SWL, please ignore
 
